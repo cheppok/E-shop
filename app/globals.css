@@ -1,7 +1,21 @@
 @import "tailwindcss";
 
 body {
+  height: 100vh;
   background: white;
 
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes flash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.flash-text {
+  animation: flash 1s infinite;
 }
