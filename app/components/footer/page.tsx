@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export const Footer = () => {
 	return (
-		<div className="bg-slate-700 text-slate-200 relative bottom-0 pt-6 mt-12 ">
+		<div className="bg-slate-700 text-slate-200 relative bottom-0 pt-6 mt-40 ">
 			<Container>
 				<div className=" flex justify-between">
 					<FooterList>
