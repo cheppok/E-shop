@@ -38,3 +38,19 @@ export type SelectedimgType = {
 	colorCode: string;
 	image: string;
 };
+
+export type productType = {
+    id: string;
+		name: string;
+		description: string;
+		category: string;
+		brand: string;
+		selectedimg?: SelectedimgType;
+		quantity?: number;
+		price: number;
+
+		images: SelectedimgType[];
+
+		inStock: boolean;
+		reviews?: reviewsType;
+}

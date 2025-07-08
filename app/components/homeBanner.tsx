@@ -19,6 +19,7 @@ export const HomeBanner = () => {
 						height={500}
 						width={500}
 						alt="banner image"
+						priority
 					/>
 				</div>
 			</div>

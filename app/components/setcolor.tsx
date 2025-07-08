@@ -1,10 +1,7 @@
 "use client";
 import React from "react";
 // import Image from "next/image";
-import {
-	SelectedimgType,
-	cartProductType,
-} from "../../product/[productid]/proDetailsPage";
+import { SelectedimgType, cartProductType } from "../types";
 
 interface SetColorProps {
 	image: SelectedimgType[];
@@ -19,8 +16,8 @@ export const SetColor: React.FC<SetColorProps> = ({
 }) => {
 	return (
 		<div>
-			<div>
-				<span>Color</span>
+			<div className="flex gap-6 mt-4">
+				<span>Color:</span>
 				<div className=" flex gap-1">
 					{image.map((Image) => {
 						return (

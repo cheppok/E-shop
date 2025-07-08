@@ -1,5 +1,14 @@
 import React from "react";
+import Container from "../components/container";
+import CartClient from "./cartClient";
 
-export const Cart = () => {
-	return <div>Cart</div>;
+const Cart = () => {
+	return (
+		<div className="pt8">
+			<Container>
+				<CartClient />
+			</Container>
+		</div>
+	);
 };
+export default Cart;

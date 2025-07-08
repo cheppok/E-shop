@@ -4,17 +4,21 @@ import Image from "next/image";
 import { TruncateText } from "../../../utils/truncateText";
 import { useRouter } from "next/navigation";
 
-import FormartPrice from "../../../utils/formartPrice";
-// import { Rating } from "@mui/material";
+import FormatPrice from "../../../utils/formatPrice";
+import { Rating } from "@mui/material";
 
 interface productCardProps {
 	data: any;
 }
 
 export const ProductCard: React.FC<productCardProps> = ({ data }) => {
-	// const Rating =
-	// 	data.reviews.reduce((acc: number, item) => item.rating + acc) /
-	// 	data.reviews.length;
+	const productRating =
+		data.reviews.length > 0
+			? data.reviews.reduce(
+					(acc: number, item: any) => item.rating + acc,
+					0
+			  ) / data.reviews.length
+			: 0;
 
 	const Router = useRouter();
 
@@ -30,12 +34,15 @@ export const ProductCard: React.FC<productCardProps> = ({ data }) => {
 						src={data.images[0].image}
 						alt=""
 						className=" w-full h-full object-contain "
+						sizes="full"
 					/>
 				</div>
 				<div className="mt-4">{TruncateText(data.name)}</div>
-				<div> {data.reviews.length} Reviews</div>
-				<div className="font-bold"> {FormartPrice(data.price)}</div>
-				<div>{/* <Rating value={Rating} readOnly /> */}</div>
+				<div> {data.reviews?.length} Reviews</div>
+				<div className="font-bold"> {FormatPrice(data.price)}</div>
+				<div>
+					<Rating value={productRating} readOnly />
+				</div>
 			</div>
 		</div>
 	);
