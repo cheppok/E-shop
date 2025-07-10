@@ -12,18 +12,6 @@ import FormatPrice from "../../utils/formatPrice";
 const CartClient = () => {
 	const { cartItems, handleClearCart, cartTotalAmount } = useCart();
 
-	// if (cartItems || cartItems.length === 0)
-	// 	return (
-	// 		<div className="flex flex-col items-center">
-	// 			<div className="text-2xl"> Your Cart is empty</div>
-	// 			<Link
-	// 				href={"/"}
-	// 				className="text-slate-500 flex items-center gap-1 mt-2"
-	// 			>
-	// 				Start shopping
-	// 			</Link>
-	// 		</div>
-	// 	);
 	return (
 		<div>
 			<h1 className="flex justify-center text-4xl mb-10">

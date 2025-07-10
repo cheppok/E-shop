@@ -133,6 +133,7 @@ export const CartcContextProvider: React.FC<ProviderProps> = ({ children }) => {
 	const handleClearCart = useCallback(() => {
 		setCartItems(null);
 		setCartTotalAmount(0);
+		setCartTotalQty(0);
 		localStorage.setItem("eShopItems", JSON.stringify(null));
 	}, []);
 

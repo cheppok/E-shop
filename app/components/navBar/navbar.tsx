@@ -21,6 +21,9 @@ export const Navbar = () => {
 						<div className="hidden md:block">search</div>
 						<div className="flex items-center gap-8 md:gap-12">
 							<div>
+								<Link href={"/login"}>Login</Link>
+							</div>
+							<div>
 								<CartCount />
 							</div>
 							<div>user</div>

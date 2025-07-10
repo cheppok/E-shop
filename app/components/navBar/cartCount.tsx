@@ -17,7 +17,7 @@ const CartCount = () => {
 			<div>
 				<Image src={"/cart.png"} alt="" width={30} height={30} />
 			</div>
-			<span className=" absolute top-[-6px] right-[-6px]">
+			<span className=" absolute top-[-12px] right-[2px]">
 				{cartTotalQty}
 			</span>
 		</div>
