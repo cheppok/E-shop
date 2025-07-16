@@ -4,7 +4,8 @@ const nextConfig: NextConfig = {
   /* config options here */
   images: {
     domains:[
-      "m.media-amazon.com"
+      "m.media-amazon.com",
+      "lh3.googleusercontent.com"
     ]
 }
 };
