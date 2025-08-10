@@ -126,7 +126,8 @@ const formSchema = z.object({
 	// colorCode: z.string().min(1, "Color code is required"),
 	file: z
 		.instanceof(File)
-		.refine((file) => file.size > 0, "Image is required"),
+		.nullable()
+		.refine((file) => file !== null && file.size > 0, "Image is required"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -141,7 +142,7 @@ export default function ProductForm() {
 			price: "",
 			color: "",
 			// colorCode: "",
-			file: undefined as any, // default empty
+			file: null, // default empty
 		},
 	});
 
@@ -155,6 +156,13 @@ export default function ProductForm() {
 
 			// 1️⃣ Upload image to Cloudinary
 			const formData = new FormData();
+			if (!data.file) {
+				alert("Please select an image");
+				return;
+			}
+
+			formData.append("file", data.file); // Now TS knows this is File
+
 			formData.append("file", data.file);
 			formData.append("upload_preset", uploadPreset!);
 
@@ -187,11 +195,12 @@ export default function ProductForm() {
 
 			alert("Product saved successfully!");
 			form.reset();
-		} catch (err: any) {
-			console.error(err);
-			alert(err.message);
-		} finally {
-			setLoading(false);
+		} catch (err) {
+			if (err instanceof Error) {
+				console.error(err.message);
+			} else {
+				console.error("Unknown error", err);
+			}
 		}
 	};
 
