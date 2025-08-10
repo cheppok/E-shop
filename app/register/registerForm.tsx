@@ -111,7 +111,7 @@ const RegisterForm = () => {
 					errors={errors}
 					register={register}
 					required
-					type="password"
+					type="password" 
 				/>
 			</div>
 			<button

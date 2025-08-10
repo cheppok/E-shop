@@ -36,6 +36,7 @@ const SignInForm = () => {
 			if (res?.ok) {
 				router.push("/cart"); // Navigate first
 				router.refresh(); // ✅ Refresh session/server-side props
+				alert("successfully logged in");
 			} else {
 				alert("Invalid email or password");
 			}

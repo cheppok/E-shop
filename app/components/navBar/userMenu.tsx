@@ -87,14 +87,14 @@ import MenuItem from "./menuItem";
 import { signOut } from "next-auth/react";
 import Backdrop from "./backdrop";
 import { SafeUser } from "../../../app/types";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 interface UserMenuProps {
 	currentUser: SafeUser | null;
 }
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const router = useRouter();
+	// const router = useRouter();
 	const toggleOpen = useCallback(() => {
 		setIsOpen((prev) => !prev);
 	}, []);
@@ -108,12 +108,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 					className=" flex gap-1 p-2 border-1 rounded-full border-slate-500 cursor-pointer hover:shadow-md transition"
 				>
 					<Image
-						src={
-							typeof currentUser?.image === "string" &&
-							currentUser.image.trim()
-								? currentUser.image.trim()
-								: "/user-white1.png"
-						}
+						src={currentUser?.image?.trim() || "/user-white1.png"}
 						width={32}
 						height={32}
 						alt="User icon"
@@ -149,8 +144,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 									onClick={async () => {
 										toggleOpen();
 										await signOut({ redirect: false }); // prevent full page redirect
-										router.push("/");
-										router.refresh(); // ✅ re-fetch server props / session
+										await signOut({ callbackUrl: "/" }); // handles redirect cleanly
 									}}
 								>
 									Logout

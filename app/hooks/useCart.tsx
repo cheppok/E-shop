@@ -7,7 +7,7 @@ import {
 	useCallback,
 	useEffect,
 } from "react";
-import { cartProductType } from "../types";
+import { cartProductType } from "../types/types";
 
 type cartContextType = {
 	cartTotalQty: number;

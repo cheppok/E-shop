@@ -47,7 +47,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import { Toaster } from "sonner";
 import { Footer } from "./components/footer/page";
 import { Navbar } from "./components/navBar/navbar";
 import Providers from "./provider/cartProvider";
@@ -80,6 +80,7 @@ export default function RootLayout({
 				<Providers>
 					<Navbar />
 					{children}
+					<Toaster richColors position="top-right" />
 					<Footer />
 				</Providers>
 			</body>
