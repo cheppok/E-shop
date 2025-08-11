@@ -118,6 +118,7 @@ import * as z from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
 	name: z.string().min(2, "Name is too short"),
@@ -134,6 +135,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function ProductForm() {
 	const [loading, setLoading] = useState(false);
+	const { reset } = useForm<FormValues>();
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -190,6 +192,10 @@ export default function ProductForm() {
 					imageUrl: uploadData.secure_url,
 				}),
 			});
+			reset();
+			setLoading(false);
+
+			console.log("data", data);
 
 			if (!res.ok) throw new Error("Saving to DB failed");
 
@@ -198,13 +204,14 @@ export default function ProductForm() {
 		} catch (err) {
 			if (err instanceof Error) {
 				console.error(err.message);
+				setLoading(false);
 			} else {
 				console.error("Unknown error", err);
+				setLoading(false);
 			}
 		}
 	};
 
-	console.log("res");
 	return (
 		<form
 			onSubmit={form.handleSubmit(onSubmit)}
@@ -281,7 +288,15 @@ export default function ProductForm() {
 			</div>
 
 			{/* Submit */}
-			<Button type="submit" disabled={loading}>
+			{/* <Button type="submit" disabled={loading}>
+				{loading ? "Uploading..." : "Create Product"}
+			</Button> */}
+			<Button
+				type="submit"
+				disabled={loading}
+				className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-md"
+			>
+				{loading && <Loader2 className="animate-spin h-4 w-4" />}
 				{loading ? "Uploading..." : "Create Product"}
 			</Button>
 		</form>
