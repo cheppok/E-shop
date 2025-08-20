@@ -6,36 +6,35 @@ import Image from "next/image";
 
 export const Footer = () => {
 	return (
-		<div className="bg-slate-700 text-slate-200 relative bottom-0 pt-6 mt-40 ">
+		<div className="bg-slate-700 text-slate-200 relative bottom-0 pt-6 mt-20 ">
 			<Container>
 				<div className=" flex justify-between">
 					<FooterList>
 						<h3 className="font-bold text-xl">Categories</h3>
-						<Link href={"/"}>Electronics</Link>
-						<Link href={"/"}>Fashion</Link>
-						<Link href={"/"}>Drinks</Link>
-						<Link href={"/"}>Households</Link>
-						<Link href={"/"}>electronics</Link>
+						<Link href="/search?category=electronics">
+							Electronics
+						</Link>
+						<Link href="/search?category=fashion">Fashion</Link>
+						<Link href="/search?category=computer">Computer</Link>
+						<Link href="/search?category=phone">Phone</Link>
+						<Link href="/search?category=beauty and personal care">
+							Beauty
+						</Link>
 					</FooterList>
 					<FooterList>
 						<h3 className="font-bold text-xl">Customer services</h3>
-						<Link href={"/"}>Contact us</Link>
+						<Link href={"/contact"}>Contact us</Link>
 						<Link href={"/"}>Refund & Exchanges</Link>
-						<Link href={"/"}>Shipping Policy</Link>
-						<Link href={"/"}>FAQs</Link>
+						<Link href={"/shippingPolicy"}>Shipping Policy</Link>
+						<Link href={"/faqs"}>FAQS</Link>
 					</FooterList>
 					<div className="w-full md:w-1/3 pb-6 md:mb-0">
 						<h3 className="font-bold text-xl pb-2">Description</h3>
 						<p>
-							REPORT OF THE INCIDENT INVOLVING STATION AMBULANCE.
-							Following the gross shortage of pump operators and
-							drivers in the station, as a operation officer/
-							training officer, it becomes my responsibility to
-							make sure that fire operational readiness is not
-							affected due to lack of persons to drive all our
-							fire vehicles during emergency. Hence occasionally,
-							an evaluation is done on personnel to adequately
-							allocate them to the right vehicle
+							E-shop has over a million products to offer. Growing
+							at a very fast rate, cheppok constantly updates its
+							products with the newest and trending items to meet
+							todays shopper&#39;s trend.
 						</p>
 						<p className="text-sm italic pl-6 pt-2">
 							&copy;{new Date().getFullYear()} E-shop. All right

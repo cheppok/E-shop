@@ -19,15 +19,13 @@ const ItemContent: React.FC<itemContentProps> = ({ item }) => {
 	const { handleQtyIncrease } = useCart();
 	const { handleQtyDecrease } = useCart();
 
-	// const [itemInCart, setItemInCart] = useState<cartProductType>(item);
-
 	return (
 		<div className="grid grid-cols-5 text-xs md:text-sm gap-4 border-t-[1.5px] border-slate-500 py-4 items-center">
 			<div className="col-span-2  ">
 				<div className="flex gap-40 p-4">
-					<Link href={`/product/${item.id}`}>
+					<Link href={`/product/${item._id}`}>
 						<Image
-							src={item.selectedimg.image}
+							src={item.imageUrl || "/placeholder.png"}
 							alt={item.name}
 							width={100}
 							height={100}
@@ -37,12 +35,11 @@ const ItemContent: React.FC<itemContentProps> = ({ item }) => {
 
 					<div className="flex flex-col gap-1 p-2 ">
 						<div>{TruncateText(item.name)}</div>
-						<div>{item.selectedimg.color}</div>
+						<div>{item.color}</div>
 						<div>
 							<button
-								className="underline text-slate-500 cursor-pointer "
+								className="underline text-red-500 cursor-pointer "
 								onClick={() => handleRemoveItemFromCart(item)}
-								// onClick={() => handleRemoveItemFromCart(itemInCart)}
 							>
 								Remove
 							</button>

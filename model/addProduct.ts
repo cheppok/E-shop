@@ -7,9 +7,14 @@ const addProductSchema = new Schema(
     color: { type: String, required: true },
     colorCode: { type: String, required: true },
     imageUrl: { type: String, required: true },
+    category: { type: String, required: true },
+   
+    
   },
   { timestamps: true }
 );
 
 export default mongoose.models.Product ||
   mongoose.model("Product", addProductSchema);
+
+  

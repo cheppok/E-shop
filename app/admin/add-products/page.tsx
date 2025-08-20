@@ -1,9 +1,9 @@
 import React from "react";
 // import AddProductForm from "./addProductForm";
 import Container from "../../components/container";
-import { getCurrentUser } from "@/actions/getCurrent User";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 import NullData from "../../components/nullData";
-import ProductForm from "../productForm";
+import ProductForn from "./productForm";
 
 const AddProducts = async () => {
 	const currentUser = await getCurrentUser();
@@ -14,8 +14,7 @@ const AddProducts = async () => {
 		<div className="flex justify-center">
 			<div className="p-8 w-4/6 ">
 				<Container>
-					{/* <AddProductForm /> */}
-					<ProductForm />
+					<ProductForn />
 				</Container>
 			</div>
 		</div>

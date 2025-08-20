@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { productType, cartProductType } from "../../types";
+import React, { useState, useEffect, useMemo } from "react";
+import { productType, cartProductType } from "../../types/types";
 import ReUsableButton from "../reusableButton";
 import { useCart } from "../../hooks/useCart";
 import { useRouter } from "next/navigation";
@@ -12,43 +12,47 @@ const ProductCartItemToCart: React.FC<ItemContentProps> = ({ product }) => {
 	const { handleAddItemsToCart, cartItems } = useCart();
 	const router = useRouter();
 	const [isItemInCart, setIsItemInCart] = useState(false);
-	const [cartProduct] = useState<cartProductType>({
-		id: product.id,
-		name: product.name,
-		description: product.description,
-		category: product.category,
-		brand: product.brand,
-		selectedimg: {
-			color: "Default",
-			colorCode: "#000000",
-			image: product.images[0].image,
-		},
-		quantity: 1,
-		price: product.price,
-	});
 
+	// Use useMemo to create the cartProduct object only when the product prop changes.
+	const cartProduct = useMemo<cartProductType>(() => {
+		return {
+			_id: product.id,
+			name: product.name,
+			description: product.description,
+			category: product.category,
+			brand: product.brand,
+			color: product.color,
+			imageURL: product.imageUrl,
+			selectedimg: {
+				color: "Default",
+				colorCode: "#000000",
+				image:
+					product?.images?.[0]?.image ||
+					product?.imageUrl ||
+					"/placeholder.png",
+			},
+			quantity: 1,
+			price: product.price,
+		};
+	}, [product]);
+
+	// Use useEffect to check for the item in the cart.
 	useEffect(() => {
-		setIsItemInCart(false);
-		if (cartItems) {
-			const existingIndex = cartItems.findIndex(
-				(item) => item.id === product.id
+		if (cartItems && product) {
+			const isProductInCart = cartItems.some(
+				(item) => item._id === product.id
 			);
-			if (existingIndex > -1) {
-				setIsItemInCart(true);
-			}
+			setIsItemInCart(isProductInCart);
 		}
-	}, [cartItems, product.id]);
+	}, [cartItems, product]);
 
 	return (
-		<div className=" flex ">
-			{" "}
+		<div className="flex">
 			{isItemInCart ? (
 				<div className="flex justify-center w-96 mt-4">
 					<ReUsableButton
-						onClick={() => {
-							router.push("/cart");
-						}}
-						bgColor="	#3d753b"
+						onClick={() => router.push("/cart")}
+						bgColor="#3d753b"
 						height="3rem"
 						width="10rem"
 						style={{
@@ -57,7 +61,6 @@ const ProductCartItemToCart: React.FC<ItemContentProps> = ({ product }) => {
 							color: "white",
 						}}
 					>
-						{" "}
 						<div>ADDED</div>
 						<div>VIEW CART</div>
 					</ReUsableButton>

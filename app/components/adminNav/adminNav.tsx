@@ -56,25 +56,8 @@ const AdminNav = () => {
 							/>
 						</div>
 						<AdminNavItems
-							label="ManageProducts"
+							label="Manage/Edit Products"
 							selected={pathname == "/admin/manage-product"}
-						/>
-					</Link>
-					<Link
-						href={"/admin/manage-orders"}
-						className="flex items-center "
-					>
-						<div>
-							<Image
-								src={"/list-bulleted-b.png"}
-								width={20}
-								height={20}
-								alt=""
-							/>
-						</div>
-						<AdminNavItems
-							label="ManageOrders"
-							selected={pathname == "/admin/manage-orders"}
 						/>
 					</Link>
 				</div>

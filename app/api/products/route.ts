@@ -1,32 +1,78 @@
 import { NextResponse } from "next/server";
-import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGODB_URI as string;
-const client = new MongoClient(uri);
+import { connectToDatabase } from "@/lib/mongodb";
+import Product from "../../../model/product"; 
 
+// CREATE PRODUCT
 export async function POST(req: Request) {
   try {
-    const { name, price, imageUrl } = await req.json();
+    // await connectDB();
+    await connectToDatabase();
 
-    if (!name || !price || !imageUrl) {
-      return NextResponse.json({ success: false, error: "Missing fields" });
+    const body = await req.json();
+    const { name, price, color, imageUrl, description, category } = body;
+
+    if (!name || !price || !color || !imageUrl || !category) {
+      return NextResponse.json(
+        { success: false, error: "All fields are required" },
+        { status: 400 }
+      );
+      
     }
+    
 
-    await client.connect();
-    const db = client.db("testdb"); // change to your DB name
-    const products = db.collection("products");
-
-    const result = await products.insertOne({
+    const product = await Product.create({
       name,
-      price,
+      price: Number(price),
+      color,
       imageUrl,
-      createdAt: new Date(),
+      description,
+      category,
+
     });
 
-    return NextResponse.json({ success: true, result });
-  } catch (err) {
-    return NextResponse.json({ success: false, error: err });
-  } finally {
-    await client.close();
+    return NextResponse.json({ success: true, product }, { status: 201 });
+  } catch (error) {
+    console.error("❌ Error creating product:", error);
+    return NextResponse.json(
+      { success: false, error: "Server error" },
+      { status: 500 }
+    );
+  }
+}
+
+
+
+export async function GET(req: Request) {
+  try {
+    await connectToDatabase();
+
+    const { searchParams } = new URL(req.url);
+    const search = searchParams.get("search") || "";
+    const category = searchParams.get("category") || "";
+
+    const query: any = {};
+
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+        { color: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    if (category) {
+      query.category = { $regex: category, $options: "i" }; // case-insensitive match
+    }
+
+    const products =
+      search || category
+        ? await Product.find(query).sort({ createdAt: -1 }).lean()
+        : await Product.find(query).sort({ createdAt: -1 }).limit(10).lean();
+
+    return NextResponse.json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return NextResponse.json([], { status: 500 });
   }
 }

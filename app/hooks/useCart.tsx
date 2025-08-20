@@ -6,8 +6,10 @@ import {
 	useContext,
 	useCallback,
 	useEffect,
+	useMemo,
 } from "react";
 import { cartProductType } from "../types/types";
+import ReUsableButton from "../components/reusableButton";
 
 type cartContextType = {
 	cartTotalQty: number;
@@ -20,10 +22,11 @@ type cartContextType = {
 	handleClearCart: () => void;
 };
 
+interface itemContentProps {
+	product: cartProductType;
+}
+
 export const CartContext = createContext<cartContextType | null>(null);
-// export const CartContext = createContext<cartContextType>(
-// 	{} as cartContextType
-// );
 
 interface ProviderProps {
 	children: React.ReactNode;
@@ -60,19 +63,54 @@ export const CartcContextProvider: React.FC<ProviderProps> = ({ children }) => {
 	}, [cartItems]);
 
 	const handleAddItemsToCart = useCallback((product: cartProductType) => {
-		setCartItems((prev) => {
-			const updatedCart = prev ? [...prev, product] : [product];
+		const productWithSafeImage: cartProductType = {
+			...product,
+			cartItemId: crypto.randomUUID(), // unique cart entry id
+			imageUrl: product.imageUrl ?? "/placeholder.png", // ✅ always string
+		};
 
+		setCartItems((prev) => {
+			const updatedCart = [...(prev || []), productWithSafeImage];
 			localStorage.setItem("eShopItems", JSON.stringify(updatedCart));
 			return updatedCart;
 		});
 	}, []);
 
+	const ProductCartItemToCart: React.FC<itemContentProps> = ({ product }) => {
+		// const { handleAddItemsToCart, cartItems } = useCart();
+
+		const cartProduct = useMemo<cartProductType>(() => {
+			return {
+				_id: product._id, // This needs to be a unique ID
+				name: product.name,
+				description: product.description,
+				price: product.price,
+				quantity: product.quantity,
+				imageUrl: product.imageUrl,
+				cartItemId: product.cartItemId,
+				category: product.category,
+				// ...other product properties
+			};
+		}, [product]); // This is the dependency array that ensures cartProduct is re-created when 'product' changes
+
+		return (
+			// ...
+			<ReUsableButton
+				onClick={() => handleAddItemsToCart(cartProduct)}
+				// ...
+			>
+				ADD ITEM CART
+			</ReUsableButton>
+			// ...
+		);
+	};
+
+	// export default ProductCartItemToCart;
 	const handleRemoveItemFromCart = useCallback(
 		(product: cartProductType) => {
 			if (cartItems) {
 				const filteredItems = cartItems.filter((item) => {
-					return item.id !== product.id;
+					return item.cartItemId !== product.cartItemId;
 				});
 				setCartItems(filteredItems);
 				localStorage.setItem(
@@ -85,51 +123,46 @@ export const CartcContextProvider: React.FC<ProviderProps> = ({ children }) => {
 	);
 	const handleQtyIncrease = useCallback(
 		(product: cartProductType) => {
-			if (product.quantity === 25) {
-				return;
-			}
+			if (product.quantity === 25) return;
+
 			if (cartItems) {
 				const updatedCart = [...cartItems];
-
 				const existingIndex = cartItems.findIndex(
-					(item) => item.id == product.id
+					(item) => item.cartItemId === product.cartItemId
 				);
 
 				if (existingIndex > -1) {
-					updatedCart[existingIndex].quantity = ++updatedCart[
-						existingIndex
-					].quantity;
+					updatedCart[existingIndex].quantity += 1;
 				}
+
 				setCartItems(updatedCart);
 				localStorage.setItem("eShopItems", JSON.stringify(updatedCart));
 			}
 		},
-
 		[cartItems]
 	);
 
 	const handleQtyDecrease = useCallback(
 		(product: cartProductType) => {
-			if (product.quantity === 1) {
-				return;
-			}
+			if (product.quantity === 1) return;
+
 			if (cartItems) {
 				const updatedCart = [...cartItems];
 				const existingIndex = cartItems.findIndex(
-					(item) => item.id == product.id
+					(item) => item.cartItemId === product.cartItemId
 				);
+
 				if (existingIndex > -1) {
-					updatedCart[existingIndex].quantity = --updatedCart[
-						existingIndex
-					].quantity;
+					updatedCart[existingIndex].quantity -= 1;
 				}
+
 				setCartItems(updatedCart);
 				localStorage.setItem("eShopItems", JSON.stringify(updatedCart));
 			}
 		},
-
 		[cartItems]
 	);
+
 	const handleClearCart = useCallback(() => {
 		setCartItems(null);
 		setCartTotalAmount(0);
@@ -142,6 +175,7 @@ export const CartcContextProvider: React.FC<ProviderProps> = ({ children }) => {
 		cartTotalAmount,
 		cartItems,
 		handleAddItemsToCart,
+		ProductCartItemToCart,
 		handleRemoveItemFromCart,
 		handleQtyIncrease,
 		handleQtyDecrease,

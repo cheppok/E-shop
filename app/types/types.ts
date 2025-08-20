@@ -21,20 +21,35 @@
     comment: string;
     createdDate: string;
     user: UserType;
+	
 };
 
 export type reviewsType = ReviewType[];
 
+
+
+export interface reviewType {
+  rating: number;
+  comment?: string;
+}
+
+
 export type cartProductType = {
-	id: string;
+	_id: string;
 	name: string;
-	description: string;
-	category: string;
-	brand: string;
-	selectedimg: SelectedimgType;
+	description?: string;
+	category?: string;
+	brand?: string;
+	color?: string
+	cartItemId: string;
+	// selectedimg: SelectedimgType;
+	imageUrl: string
 	quantity: number;
 	price: number;
+	reviews?: ReviewType
+	rating?: number
 };
+
 
 export type SelectedimgType = {
 	color: string;
@@ -43,18 +58,20 @@ export type SelectedimgType = {
 };
 
 export type productType = {
-    id: string;
+    _id: string;
 		name: string;
 		description: string;
 		category: string;
 		brand: string;
 		selectedimg?: SelectedimgType;
+		imageUrl: string 
 		quantity?: number;
 		price: number;
+		cartItemId: string
+color: string
+		images?: SelectedimgType[];
 
-		images: SelectedimgType[];
-
-		inStock: boolean;
+		inStock?: boolean;
 		reviews?: reviewsType;
 };
 export type ImageType = {

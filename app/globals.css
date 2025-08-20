@@ -3,11 +3,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
-body {
-  height: 100vh;
-  background: white;
+@layer base {
+  html, body {
+    @apply h-full;
+  }
 }
-
 @keyframes flash {
   0%, 100% {
     opacity: 1;
@@ -20,6 +20,17 @@ body {
 .flash-text {
   animation: flash 1s infinite;
 }
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 15s linear infinite;
+}
+
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

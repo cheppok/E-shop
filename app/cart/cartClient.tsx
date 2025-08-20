@@ -26,7 +26,7 @@ const CartClient = () => {
 			<div>
 				{cartItems &&
 					cartItems.map((item) => {
-						return <ItemContent key={item.id} item={item} />;
+						return <ItemContent key={item._id} item={item} />;
 					})}
 			</div>
 			<div className="flex justify-between border-t-[1.5px] border-slate-200 gap-4 py-4">

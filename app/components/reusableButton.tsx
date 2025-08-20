@@ -6,6 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	width?: string; // Width (e.g. "100px", "50%")
 	borderRadius?: string;
 	children: React.ReactNode;
+	onClick?: () => void;
 }
 
 const ReUsableButton: React.FC<ButtonProps> = ({

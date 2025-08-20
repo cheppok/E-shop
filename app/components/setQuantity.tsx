@@ -1,5 +1,5 @@
 import React from "react";
-import { cartProductType } from "../types";
+import { cartProductType } from "../types/types";
 
 interface setQtyProps {
 	cartProduct: cartProductType;
