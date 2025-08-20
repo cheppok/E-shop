@@ -3,6 +3,14 @@
 import { useState, useContext } from "react";
 import Image from "next/image";
 import { ProductsContext } from "../../../context/productContext";
+import { productType } from "../../types/types";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 export default function ProductForm() {
 	const { setProducts } = useContext(ProductsContext);
@@ -25,6 +33,7 @@ export default function ProductForm() {
 			const form = new FormData();
 			form.append("file", file);
 			form.append("upload_preset", "myShopUploads");
+			console.log("🚀 Submitting product:", formData);
 
 			const res = await fetch(
 				"https://api.cloudinary.com/v1_1/dzzic0w4t/image/upload",
@@ -83,7 +92,7 @@ export default function ProductForm() {
 			if (data.success) {
 				alert("✅ Product created successfully!");
 
-				setProducts((prev: any[]) => [...prev, data.product]);
+				setProducts((prev: productType[]) => [...prev, data.product]);
 
 				// Reset form
 				setFormData({
@@ -149,15 +158,31 @@ export default function ProductForm() {
 					className="border p-2 w-full"
 				/>
 
-				{/* 👇 Plain text category */}
-				<input
-					placeholder="Category (e.g. phones, tv, mens wear)"
+				{/* 👇 Category using shadcn/ui Select */}
+				<Select
 					value={formData.category}
-					onChange={(e) =>
-						setFormData({ ...formData, category: e.target.value })
+					onValueChange={(value) =>
+						setFormData({ ...formData, category: value })
 					}
-					className="border p-2 w-full"
-				/>
+				>
+					<SelectTrigger className="w-full border p-2">
+						<SelectValue placeholder="Select a category" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="phone">Phones</SelectItem>
+						<SelectItem value="electronics">Electronics</SelectItem>
+						<SelectItem value="fashion">Fashion</SelectItem>
+						<SelectItem value="computer">
+							Computer & Accessory
+						</SelectItem>
+						<SelectItem value="household">
+							Household Items
+						</SelectItem>
+						<SelectItem value="food-drinks">
+							Food and Drinks
+						</SelectItem>
+					</SelectContent>
+				</Select>
 
 				<input
 					type="file"

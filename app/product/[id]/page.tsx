@@ -60,7 +60,7 @@ export default function ProDetailsPage() {
 			name: product.name,
 			price: product.price,
 			color: product.color,
-			imageUrl: product.imageUrl ?? "/placeholder.png", // ✅ always string
+			imageUrl: product.imageUrl ?? "/placeholder.png",
 			quantity: 1,
 			brand: product.brand || "Unknown",
 			cartItemId: crypto.randomUUID(), // ✅ unique per cart entry
@@ -81,7 +81,6 @@ export default function ProDetailsPage() {
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-2 ">
-			{/* Product Image */}
 			<div className="relative w-full aspect-square flex items-start justify-center">
 				<Image
 					src={product.imageUrl || "/placeholder.png"}
@@ -93,7 +92,6 @@ export default function ProDetailsPage() {
 				/>
 			</div>
 
-			{/* Product Info */}
 			<div className="flex flex-col justify-start  gap-4 mr-12 ">
 				<h1 className="text-2xl font-bold">{product.name}</h1>
 				<h1 className="text-2xl">Description</h1>

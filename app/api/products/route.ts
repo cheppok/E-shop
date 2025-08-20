@@ -2,11 +2,14 @@ import { NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/lib/mongodb";
 import Product from "../../../model/product"; 
+import { FilterQuery } from "mongoose";
+import  { IProduct } from "../../../model/product";
+
 
 // CREATE PRODUCT
 export async function POST(req: Request) {
   try {
-    // await connectDB();
+   
     await connectToDatabase();
 
     const body = await req.json();
@@ -51,7 +54,7 @@ export async function GET(req: Request) {
     const search = searchParams.get("search") || "";
     const category = searchParams.get("category") || "";
 
-    const query: any = {};
+   const query: FilterQuery<IProduct> = {};
 
     if (search) {
       query.$or = [

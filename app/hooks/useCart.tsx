@@ -38,9 +38,18 @@ export const CartcContextProvider: React.FC<ProviderProps> = ({ children }) => {
 
 	const [cartItems, setCartItems] = useState<cartProductType[] | null>([]);
 	useEffect(() => {
-		const cartItems: any = localStorage.getItem("eShopItems");
-		const cProduct: cartProductType[] | null = JSON.parse(cartItems);
-		setCartItems(cProduct);
+		const stored = localStorage.getItem("eShopItems");
+
+		if (stored) {
+			try {
+				const parsed: cartProductType[] = JSON.parse(stored);
+				setCartItems(parsed);
+			} catch {
+				setCartItems([]); // fallback if parsing fails
+			}
+		} else {
+			setCartItems([]); // nothing in localStorage
+		}
 	}, []);
 
 	useEffect(() => {

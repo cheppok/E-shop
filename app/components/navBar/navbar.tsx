@@ -27,46 +27,54 @@ export const Navbar = async () => {
 									Cheppok
 								</p>
 							</Link>
-							<div className="flex gap-2 hover:scale-95 text-center hover:text-gray-900">
-								<Link href={"/"}>
+							<div className="flex gap-2">
+								<Link
+									href={"/"}
+									className=" text-center hover:border-slate-300 hover:border-b-2"
+								>
 									<p>Home</p>
 								</Link>
 								<Link
 									href={"/about"}
-									className="hover:scale-95 text-center hover:text-gray-900"
+									className=" text-center hover:border-slate-300 hover:border-b-2 "
 								>
 									<p>About</p>
 								</Link>
 								<Link
 									href={"/contact"}
-									className="hover:scale-95 text-center hover:text-gray-900"
+									className=" text-center hover:border-slate-300 hover:border-b-2 "
 								>
-									<p>Contact Us</p>
+									<p>Contact </p>
 								</Link>
 							</div>
 						</div>
 
 						<Link
 							href={"/search"}
-							className="hidden md:block hover:scale-95 text-center hover:text-gray-900"
+							className="hidden md:block  text-center hover:border-slate-300 hover:border-b-2"
 						>
 							Search products
 						</Link>
 
-						<div className="flex items-center gap-8 md:gap-12 hover:scale-95 text-center hover:text-gray-900">
+						<div className="flex items-center gap-8 md:gap-12  text-center">
 							{currentUser ? (
-								<Link href="/admin">Admin Dashboard</Link>
+								<Link
+									href="/admin"
+									className="text-center hover:border-slate-300 hover:border-b-2 border-slate-300"
+								>
+									Admin Dashboard
+								</Link>
 							) : (
 								<div className="flex">
 									<Link
 										href="/sign-in"
-										className="hover:scale-105 text-center hover:text-gray-900"
+										className=" text-center hover:border-slate-300 hover:border-b-2 border-slate-300"
 									>
 										Login/
 									</Link>
 									<Link
 										href="/register"
-										className="hover:scale-105 text-center hover:text-gray-900"
+										className=" text-center hover:border-slate-300 hover:border-b-2 border-slate-300"
 									>
 										SignUp
 									</Link>

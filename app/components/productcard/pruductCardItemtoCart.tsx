@@ -16,21 +16,15 @@ const ProductCartItemToCart: React.FC<ItemContentProps> = ({ product }) => {
 	// Use useMemo to create the cartProduct object only when the product prop changes.
 	const cartProduct = useMemo<cartProductType>(() => {
 		return {
-			_id: product.id,
+			_id: product._id,
 			name: product.name,
 			description: product.description,
 			category: product.category,
 			brand: product.brand,
 			color: product.color,
-			imageURL: product.imageUrl,
-			selectedimg: {
-				color: "Default",
-				colorCode: "#000000",
-				image:
-					product?.images?.[0]?.image ||
-					product?.imageUrl ||
-					"/placeholder.png",
-			},
+			imageUrl: product.imageUrl,
+			cartItemId: product.cartItemId,
+
 			quantity: 1,
 			price: product.price,
 		};
@@ -40,7 +34,7 @@ const ProductCartItemToCart: React.FC<ItemContentProps> = ({ product }) => {
 	useEffect(() => {
 		if (cartItems && product) {
 			const isProductInCart = cartItems.some(
-				(item) => item._id === product.id
+				(item) => item._id === product._id
 			);
 			setIsItemInCart(isProductInCart);
 		}

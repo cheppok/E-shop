@@ -49,9 +49,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 								<div className="self-center-safe text-lg font-semibold italic">
 									{currentUser.name}
 								</div>
-								<Link href={"/orders"}>
+								<Link href={"/cart"}>
 									<MenuItem onClick={toggleOpen}>
-										Your Orders
+										Your cart
 									</MenuItem>
 								</Link>
 								<Link href={"/admin"}>

@@ -2,7 +2,6 @@ import React from "react";
 
 import Link from "next/link";
 import Image from "next/image";
-import AboutCardList from "../components/aboutCardList";
 
 export default function About() {
 	return (
@@ -34,12 +33,10 @@ export default function About() {
 					/>
 				</div>
 			</section>
-
-			<div className="mt-24 w-full mr32 ">
-				<AboutCardList />
+			<div className="text-4xl p-2 rounded-lg bg-amber-100 w-fit mt-16">
+				Our Team
 			</div>
-
-			<section className="flex justify-between mr-32 mt-12 ">
+			<section className="flex justify-between mr-32 mt-8 ">
 				<div className=" rounded-sm">
 					<Image
 						src={"/member.jpg"}

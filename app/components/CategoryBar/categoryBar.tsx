@@ -57,10 +57,10 @@ export default function CategoryBar() {
 				</li>
 				<li>
 					<Link
-						href="/search?category=food and drinks"
+						href="/search?category=food-drinks"
 						className="hover:underline"
 					>
-						Food & rinks
+						Food & Drinks
 					</Link>
 				</li>
 			</ul>

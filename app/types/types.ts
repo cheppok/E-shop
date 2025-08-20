@@ -63,15 +63,15 @@ export type productType = {
 		description: string;
 		category: string;
 		brand: string;
-		selectedimg?: SelectedimgType;
+		// selectedimg?: SelectedimgType;
 		imageUrl: string 
 		quantity?: number;
 		price: number;
 		cartItemId: string
 color: string
-		images?: SelectedimgType[];
+		// images?: SelectedimgType[];
 
-		inStock?: boolean;
+		// inStock?: boolean;
 		reviews?: reviewsType;
 };
 export type ImageType = {
