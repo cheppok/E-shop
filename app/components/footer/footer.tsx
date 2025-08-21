@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import React from "react";
 import Container from "../container";
 import { FooterList } from "./footerList";
@@ -24,7 +25,7 @@ export const Footer = () => {
 					<FooterList>
 						<h3 className="font-bold text-xl">Customer services</h3>
 						<Link href={"/contact"}>Contact us</Link>
-						<Link href={"/"}>Refund & Exchanges</Link>
+						<Link href={"/refund"}>Refund & Exchanges</Link>
 						<Link href={"/shippingPolicy"}>Shipping Policy</Link>
 						<Link href={"/faqs"}>FAQS</Link>
 					</FooterList>

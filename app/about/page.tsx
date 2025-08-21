@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from "react";
 
 import Link from "next/link";
@@ -77,10 +79,7 @@ export default function About() {
 			</section>
 
 			<section className="flex justify-around mt-28 mr-32">
-				<Link
-					href={"#"}
-					className="flex flex-col justify-center items-center"
-				>
+				<div className="flex flex-col justify-center items-center">
 					<div className="h-16 w-16 bg-gray-400 flex justify-center items-center rounded-full">
 						<Image
 							src={"/delivery-truck.png"}
@@ -96,9 +95,9 @@ export default function About() {
 					<h3 className="text-sm">
 						Free delivery for all orders over $140
 					</h3>
-				</Link>
+				</div>
 				<Link
-					href={"#"}
+					href={"/contact"}
 					className="flex flex-col justify-center items-center"
 				>
 					<div className="h-16 w-16 bg-gray-400 flex justify-center items-center rounded-full">
@@ -123,10 +122,7 @@ export default function About() {
 					</h3>
 					<h3 className="text-sm">Friendly 24/7 customer support</h3>
 				</Link>
-				<Link
-					href={"#"}
-					className="flex flex-col justify-center items-center"
-				>
+				<div className="flex flex-col justify-center items-center">
 					<div className="h-16 w-16 bg-gray-400 flex justify-center items-center rounded-full">
 						<Image
 							src={"/guarantee.png"}
@@ -142,7 +138,7 @@ export default function About() {
 					<h3 className="text-sm">
 						We return money back within 30 days
 					</h3>
-				</Link>
+				</div>
 			</section>
 		</div>
 	);

@@ -1,8 +1,9 @@
+export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
-import { Footer } from "./components/footer/page";
+import { Footer } from "./components/footer/footer";
 import { Navbar } from "./components/navBar/navbar";
 import Providers from "./provider/cartProvider";
 import { ProductsProvider } from "../context/productContext";

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import FAQ from "./faqs";
 
 export default function FAQPage() {

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Image from "next/image";
 import SearchInput from "./searchInput"; // adjust path as needed
 import { TruncateText } from "../../utils/truncateText";
