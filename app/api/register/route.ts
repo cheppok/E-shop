@@ -30,38 +30,38 @@
 // 	}
 // }
 
-
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";  // ✅ use singleton import
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
   try {
     const { name, email, password } = await request.json();
 
-    if (!name || !email || !password) {
+    // ✅ Basic validation
+    if (!name?.trim() || !email?.trim() || !password?.trim()) {
       return NextResponse.json(
-        { error: "All fields are required." },
+        { error: "All fields (name, email, password) are required." },
         { status: 400 }
       );
     }
 
-    // ✅ check if user already exists
+    // ✅ Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
 
     if (existingUser) {
       return NextResponse.json(
-        { error: "User with this email already exists." },
+        { error: "A user with this email already exists." },
         { status: 409 }
       );
     }
 
-    // ✅ hash password securely
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // ✅ Hash password
+    const hashedPassword = await bcrypt.hash(password, 12);
 
-    // ✅ create user
+    // ✅ Create user
     const user = await prisma.user.create({
       data: {
         name,
@@ -73,14 +73,14 @@ export async function POST(request: Request) {
         name: true,
         email: true,
         createdAt: true,
-      }, // don’t return hashed password
+      }, // never return password
     });
 
     return NextResponse.json(user, { status: 201 });
   } catch (error) {
     console.error("Registration error:", error);
     return NextResponse.json(
-      { error: "Something went wrong during registration." },
+      { error: "Internal server error. Please try again later." },
       { status: 500 }
     );
   }

@@ -14,19 +14,16 @@ export default async function SignInPage() {
 	// ✅ Check if already logged in
 	const session = await getServerSession(authOptions);
 	if (session) {
-		redirect("/"); // or "/dashboard" if you want
+		redirect("/");
 	}
 
 	return (
 		<main className="flex flex-col items-center px-4">
-			{/* Heading */}
 			<h1 className="text-3xl font-bold flex gap-2 justify-center m-6">
 				Log in to <span className={redressed.className}>E-shop</span>
 			</h1>
 
-			{/* Content */}
 			<div className="flex flex-col md:flex-row gap-10 items-center">
-				{/* Illustration */}
 				<Image
 					src="/shoppers.jpg"
 					width={350}
@@ -36,7 +33,6 @@ export default async function SignInPage() {
 					className="rounded-xl shadow-md"
 				/>
 
-				{/* Form */}
 				<div className="mt-10 md:mt-28 w-full max-w-md">
 					<SignInForm />
 				</div>
