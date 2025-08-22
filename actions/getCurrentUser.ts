@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth"; // ✅ import from lib, not route
-import { prisma } from "@/lib/prisma"; // move prisma client to lib
+import { prisma } from "@/lib/prisma"; 
 import { SafeUser } from "@/app/types";
 
 export async function getCurrentUser(): Promise<SafeUser | null> {

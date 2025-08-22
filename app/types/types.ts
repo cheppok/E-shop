@@ -1,7 +1,7 @@
  
  
  
- type UserType = {
+ export type UserType = {
     id: string;
     name: string;
     email: string;
@@ -13,7 +13,7 @@
     role: string;
 };
 
- type ReviewType = {
+ export type ReviewType = {
     id: string;
     userId: string;
     productId: string;
@@ -84,5 +84,9 @@ export type UploadedImageType = {
 	colorCode: string;
 	image: string;
 };
+ export type SafeUser = {
+  role: string;
+  emailVerified: Date | null;
+}
 
 
