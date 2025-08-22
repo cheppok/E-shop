@@ -85,6 +85,7 @@ const RegisterForm = () => {
 			<div className="w-2/4 self-center-safe mb-6 ">
 				<Input
 					id="email"
+					type="email"
 					label="email"
 					disabled={isLoading}
 					errors={errors}
@@ -111,7 +112,7 @@ const RegisterForm = () => {
 					errors={errors}
 					register={register}
 					required
-					type="password" 
+					type="password"
 				/>
 			</div>
 			<button
