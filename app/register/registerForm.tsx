@@ -133,15 +133,23 @@
 // };
 
 // export default RegisterForm;
+
 "use client";
 
 import React, { useState } from "react";
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Input } from "../components/input/input";
 import Link from "next/link";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+
+type RegisterFormData = {
+	name: string;
+	email: string;
+	password: string;
+	confirmPassword: string;
+};
 
 const RegisterForm = () => {
 	const router = useRouter();
@@ -152,7 +160,7 @@ const RegisterForm = () => {
 		handleSubmit,
 		watch,
 		formState: { errors },
-	} = useForm<FieldValues>({
+	} = useForm<RegisterFormData>({
 		defaultValues: {
 			name: "",
 			email: "",
@@ -161,142 +169,119 @@ const RegisterForm = () => {
 		},
 	});
 
-	const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+	const password = watch("password");
+
+	const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
 		setIsLoading(true);
+
+		if (data.password !== data.confirmPassword) {
+			alert("Passwords do not match.");
+			setIsLoading(false);
+			return;
+		}
 
 		try {
 			const response = await fetch("/api/register", {
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
+				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(data),
 			});
 
-			if (!response.ok) {
-				throw new Error("Failed to register user");
-			}
-
-			const result = await response.json();
-			console.log("User created:", result);
+			if (!response.ok) throw new Error("Failed to register user");
 
 			router.push("/sign-in");
-		} catch (error) {
-			console.error("Registration error:", error);
+		} catch (err) {
+			console.error("Registration error:", err);
 		} finally {
 			setIsLoading(false);
 		}
 	};
 
-	// Watch password to validate confirmPassword
-	const password = watch("password");
-
 	return (
-		<>
-			{/* Google sign-up button */}
+		<form
+			onSubmit={handleSubmit(onSubmit)}
+			className="flex flex-col items-center gap-6 w-full max-w-md mx-auto"
+		>
+			{/* Google sign-up */}
 			<button
-				onClick={() => {
-					signIn("google");
-				}}
-				className="self-center-safe w-2/4 font-bold border-2 border-slate-300 rounded-md mb-6 cursor-pointer"
+				type="button"
+				onClick={() => signIn("google")}
+				className="w-full font-bold border-2 border-slate-300 rounded-md mb-6 flex justify-center items-center gap-4 p-2"
 			>
-				<div className="flex justify-center gap-4 pt-3 pb-2">
-					<Image
-						src={"/google2.png"}
-						height={20}
-						width={20}
-						alt="Google"
-					/>
-					<p>Sign up with Google</p>
-				</div>
+				<Image src="/google2.png" width={20} height={20} alt="Google" />
+				Sign up with Google
 			</button>
 
 			{/* Name */}
-			<div className="w-2/4 self-center-safe mb-6">
-				<Input
-					id="name"
-					label="name"
-					type="text"
-					register={register}
-					validation={{
-						required: "name is required",
-					}}
-					errors={errors}
-					disabled={isLoading}
-				/>
-			</div>
+			<Input<RegisterFormData>
+				id="name"
+				label="Name"
+				register={register}
+				validation={{ required: "Name is required" }}
+				errors={errors}
+				disabled={isLoading}
+			/>
 
 			{/* Email */}
-			<div className="w-2/4 self-center-safe mb-6">
-				<Input
-					id="email"
-					label="Email"
-					type="email"
-					register={register}
-					validation={{
-						required: "Email is required",
-						pattern: {
-							value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-							message: "Enter a valid email address",
-						},
-					}}
-					errors={errors}
-					disabled={isLoading}
-				/>
-			</div>
+			<Input<RegisterFormData>
+				id="email"
+				label="Email"
+				type="email"
+				register={register}
+				validation={{
+					required: "Email is required",
+					pattern: {
+						value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+						message: "Enter a valid email",
+					},
+				}}
+				errors={errors}
+				disabled={isLoading}
+			/>
 
 			{/* Password */}
-			<div className="w-2/4 self-center-safe mb-6">
-				<Input
-					id="password"
-					label="Password"
-					type="password"
-					register={register}
-					validation={{ required: "Password is required" }}
-					errors={errors}
-					disabled={isLoading}
-				/>
-			</div>
+			<Input<RegisterFormData>
+				id="password"
+				label="Password"
+				type="password"
+				register={register}
+				validation={{ required: "Password is required" }}
+				errors={errors}
+				disabled={isLoading}
+			/>
 
 			{/* Confirm Password */}
-			<div className="w-2/4 self-center-safe mb-6">
-				<Input
-					id="confirmPassword"
-					label="Confirm Password"
-					type="password"
-					register={register}
-					validation={{
-						required: "Please confirm your password",
-						validate: (value: string) =>
-							value === password || "Passwords do not match", // ✅ now password is used
-					}}
-					errors={errors}
-					disabled={isLoading}
-				/>
-				{errors.confirmPassword && (
-					<span className="text-red-500 text-sm">
-						{errors.confirmPassword.message?.toString()}
-					</span>
-				)}
-			</div>
+			<Input<RegisterFormData>
+				id="confirmPassword"
+				label="Confirm Password"
+				type="password"
+				register={register}
+				validation={{
+					required: "Please confirm password",
+					validate: (value: string) =>
+						value === password || "Passwords do not match",
+				}}
+				errors={errors}
+				disabled={isLoading}
+			/>
+
 			{/* Submit */}
 			<button
 				type="submit"
-				onClick={handleSubmit(onSubmit)}
 				disabled={isLoading}
-				className="bg-black text-white rounded-2xl p-2 w-2/12 self-center-safe mt-12 disabled:opacity-50"
+				className="bg-black text-white rounded-2xl p-2 w-2/5 disabled:opacity-50 mt-4"
 			>
 				{isLoading ? "Loading..." : "Sign Up"}
 			</button>
 
 			{/* Link to login */}
-			<div className="flex gap-4 justify-center text-xl mt-12">
+			<div className="flex gap-4 justify-center text-xl mt-6">
 				<p>Already have an account?</p>
-				<Link href={"/sign-in"} className="underline italic">
+				<Link href="/sign-in" className="underline italic">
 					Login
 				</Link>
 			</div>
-		</>
+		</form>
 	);
 };
 

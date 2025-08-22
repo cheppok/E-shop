@@ -49,39 +49,49 @@
 //   );
 // };
 
-// export default Input;
 "use client";
-import React from "react";
-import { FieldErrors, useForm } from "react-hook-form";
 
-type InputProps = {
-	id: string;
+import * as React from "react";
+import {
+	UseFormRegister,
+	RegisterOptions,
+	FieldErrors,
+	FieldValues,
+	Path,
+} from "react-hook-form";
+import { cn } from "@/lib/utils";
+
+type InputProps<T extends FieldValues> = {
+	id: Path<T>; // ✅ Use Path<T> instead of keyof T
 	label: string;
 	type?: string;
 	disabled?: boolean;
-	errors?: FieldErrors;
-	register: ReturnType<typeof useForm>["register"];
-	validation?: object; // ✅ allows passing required + validate rules
+	register: UseFormRegister<T>;
+	validation?: RegisterOptions<T, Path<T>>;
+	errors?: FieldErrors<T>;
 };
 
-export const Input: React.FC<InputProps> = ({
+export function Input<T extends FieldValues>({
 	id,
 	label,
 	type = "text",
 	disabled,
-	errors,
 	register,
-	validation = {},
-}) => {
+	validation,
+	errors,
+}: InputProps<T>) {
 	return (
-		<div className="flex flex-col gap-1">
+		<div className="flex flex-col gap-1 w-full">
 			<label htmlFor={id}>{label}</label>
 			<input
 				id={id}
 				type={type}
 				{...register(id, validation)}
 				disabled={disabled}
-				className="border rounded px-2 py-1"
+				className={cn(
+					"border rounded px-2 py-1",
+					errors?.[id] && "border-red-500"
+				)}
 			/>
 			{errors?.[id] && (
 				<span className="text-red-500 text-sm">
@@ -91,5 +101,4 @@ export const Input: React.FC<InputProps> = ({
 			)}
 		</div>
 	);
-};
-export default Input;
+}
