@@ -84,7 +84,8 @@ export type UploadedImageType = {
 	colorCode: string;
 	image: string;
 };
- export type SafeUser = {
+
+export type SafeUser = {
   role: string;
   emailVerified: Date | null;
 }
