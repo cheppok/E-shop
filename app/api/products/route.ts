@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/lib/mongodb";
-import Product from "../../../model/product"; 
+import Product from "@/model/product"; 
 import { FilterQuery } from "mongoose";
-import  { IProduct } from "../../../model/product";
+import  { IProduct } from "@/model/product";
 
 
 // CREATE PRODUCT
@@ -79,3 +79,4 @@ export async function GET(req: Request) {
     return NextResponse.json([], { status: 500 });
   }
 }
+

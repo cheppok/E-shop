@@ -17,22 +17,32 @@ interface Product {
 export default async function SearchPage({
 	searchParams,
 }: {
-	searchParams: { query?: string; category?: string };
+	searchParams: Promise<{ query?: string; category?: string }>;
 }) {
-	const query = searchParams.query || "";
-	const category = searchParams.category || "";
+	// ✅ Await searchParams (Next.js 15+ requirement)
+	const { query = "", category = "" } = await searchParams;
 
-	// Build API URL with both query + category
+	// ✅ Build API URL safely
 	const apiUrl = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`);
 	if (query) apiUrl.searchParams.set("search", query);
 	if (category) apiUrl.searchParams.set("category", category);
 
+	console.log("API URL:", apiUrl.toString());
+
+	// ✅ Fetch products
 	const res = await fetch(apiUrl.toString(), { cache: "no-store" });
+
+	if (!res.ok) {
+		const text = await res.text();
+		console.error("API Error response:", text);
+		throw new Error("API returned non-JSON");
+	}
+
 	const products: Product[] = await res.json();
 
 	return (
 		<div className="max-w-5xl mx-auto px-4 py-8">
-			{/* 🔎 Search bar at top */}
+			{/* 🔎 Search bar */}
 			<SearchInput />
 
 			<h1 className="text-2xl font-bold mb-6 mt-6">
@@ -58,21 +68,23 @@ export default async function SearchPage({
 					{products.map((product) => (
 						<div
 							key={product._id}
-							className=" flex gap-4 border rounded-lg p-4 hover:shadow-md"
+							className="flex gap-4 border rounded-lg p-4 hover:shadow-md"
 						>
+							{/* 📸 Image */}
 							<div>
 								<Image
 									src={product.imageUrl}
 									alt={product.name}
 									width={200}
 									height={200}
-									className="rounded-md"
+									className="rounded-md object-cover"
 								/>
 							</div>
+
+							{/* 📋 Details */}
 							<div>
 								<h2 className="font-semibold mt-2">
 									{TruncateText(product.name)}
-									{/* {product.name} */}
 								</h2>
 								<p className="text-gray-600 text-sm">
 									{product.color}
